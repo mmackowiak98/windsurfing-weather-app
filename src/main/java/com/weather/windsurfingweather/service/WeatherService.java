@@ -5,7 +5,7 @@ import com.weather.windsurfingweather.exceptions.LocationAlreadyExistsException;
 import com.weather.windsurfingweather.exceptions.NoForecastFoundException;
 import com.weather.windsurfingweather.model.GeographicalCoordinates;
 import com.weather.windsurfingweather.model.Location;
-import com.weather.windsurfingweather.model.dao.LocationDAO;
+import com.weather.windsurfingweather.model.record.LocationRecord;
 import com.weather.windsurfingweather.repo.LocationRepository;
 import com.weather.windsurfingweather.utils.ApiKey;
 import com.weather.windsurfingweather.utils.Calculation;
@@ -31,14 +31,14 @@ public class WeatherService {
     LocationRepository locationRepository;
 
 
-    public LocationDAO getBestLocation(LocalDate date) throws IOException {
-        Map<String, LocationDAO> matchingLocations = getMatchingLocations(date);
+    public LocationRecord getBestLocation(LocalDate date) throws IOException {
+        Map<String, LocationRecord> matchingLocations = getMatchingLocations(date);
 
-        Map<String, LocationDAO> filteredLocations = Calculation.filterByRequirements(matchingLocations);
+        Map<String, LocationRecord> filteredLocations = Calculation.filterByRequirements(matchingLocations);
 
         Map<String, Long> mapOfValuesFromFormula = Calculation.calculateValueFromFormula(filteredLocations);
 
-        LocationDAO location = null;
+        LocationRecord location = null;
 
         if (!mapOfValuesFromFormula.isEmpty()) {
 
@@ -47,9 +47,9 @@ public class WeatherService {
                     .max(Map.Entry.comparingByValue())
                     .orElseThrow(NoSuchElementException::new);
 
-            Optional<Map.Entry<String, LocationDAO>> mapOfBestLocation = filteredLocations.entrySet()
+            Optional<Map.Entry<String, LocationRecord>> mapOfBestLocation = filteredLocations.entrySet()
                     .stream()
-                    .filter(o -> o.getValue().getLocationName().equals(maxEntry.getKey()))
+                    .filter(o -> o.getValue().locationName().equals(maxEntry.getKey()))
                     .findAny();
 
 
@@ -62,9 +62,9 @@ public class WeatherService {
     }
 
 
-    private Map<String, LocationDAO> getMatchingLocations(LocalDate date) throws IOException {
+    private Map<String, LocationRecord> getMatchingLocations(LocalDate date) throws IOException {
         if (DateRange.isInRange(date)) {
-            Map<String, LocationDAO> locations = new HashMap<>();
+            Map<String, LocationRecord> locations = new HashMap<>();
 
             List<Location> allLocations = locationRepository.findAll();
 
@@ -79,7 +79,7 @@ public class WeatherService {
                         .filter(s -> s.getString("datetime").equals(date.toString()))
                         .findAny().orElseThrow(NoForecastFoundException::new);
 
-                LocationDAO newLocation = new LocationDAO(
+                LocationRecord newLocation = new LocationRecord(
                         location.getLocationName(),
                         oneDayForecast.getLong("temp"),
                         oneDayForecast.getLong("wind_spd"),

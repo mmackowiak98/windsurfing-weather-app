@@ -1,6 +1,6 @@
 package com.weather.windsurfingweather.utils;
 
-import com.weather.windsurfingweather.model.dao.LocationDAO;
+import com.weather.windsurfingweather.model.record.LocationRecord;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,25 +12,25 @@ public class Calculation {
     private static final int MIN_TEMPERATURE = 5;
     private static final int MAX_TEMPERATURE = 35;
 
-    public static Map<String, LocationDAO> filterByRequirements(Map<String, LocationDAO> locations) {
+    public static Map<String, LocationRecord> filterByRequirements(Map<String, LocationRecord> locations) {
 
         return locations.entrySet().stream()
-                .filter(o -> o.getValue().getWindSpeed() > MIN_WIND_SPEED)
-                .filter(o -> o.getValue().getWindSpeed() < MAX_WIND_SPEED)
-                .filter(o -> o.getValue().getTemperature() > MIN_TEMPERATURE)
-                .filter(o -> o.getValue().getTemperature() < MAX_TEMPERATURE)
+                .filter(o -> o.getValue().windSpeed() > MIN_WIND_SPEED)
+                .filter(o -> o.getValue().windSpeed() < MAX_WIND_SPEED)
+                .filter(o -> o.getValue().temperature() > MIN_TEMPERATURE)
+                .filter(o -> o.getValue().temperature() < MAX_TEMPERATURE)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public static Map<String, Long> calculateValueFromFormula(Map<String, LocationDAO> locations) {
+    public static Map<String, Long> calculateValueFromFormula(Map<String, LocationRecord> locations) {
 
         Map<String, Long> mapOfValuesFromFormula = new HashMap<>();
 
         Long surfingScore;
 
-        for (Map.Entry<String, LocationDAO> entry : locations.entrySet()) {
+        for (Map.Entry<String, LocationRecord> entry : locations.entrySet()) {
 
-            surfingScore = (entry.getValue().getWindSpeed() * 3) + entry.getValue().getTemperature();
+            surfingScore = (entry.getValue().windSpeed() * 3) + entry.getValue().temperature();
             mapOfValuesFromFormula.put(entry.getKey(), surfingScore);
 
         }
