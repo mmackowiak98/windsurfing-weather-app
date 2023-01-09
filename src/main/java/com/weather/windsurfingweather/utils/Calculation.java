@@ -15,6 +15,7 @@ public class Calculation {
     public static Map<String, LocationRecord> filterByRequirements(Map<String, LocationRecord> locations) {
 
         return locations.entrySet().stream()
+            //nie lepiej zrobic pomocnicza metode ktora ma 3 parametry checkIfValueInRange(value, min,max) i wywolac ja dwa razy z .filter?
                 .filter(o -> o.getValue().windSpeed() > MIN_WIND_SPEED)
                 .filter(o -> o.getValue().windSpeed() < MAX_WIND_SPEED)
                 .filter(o -> o.getValue().temperature() > MIN_TEMPERATURE)
@@ -25,7 +26,7 @@ public class Calculation {
     public static Map<String, Long> calculateValueFromFormula(Map<String, LocationRecord> locations) {
 
         Map<String, Long> mapOfValuesFromFormula = new HashMap<>();
-
+// nie potrzebujesz tej zmiennej poza petla
         Long surfingScore;
 
         for (Map.Entry<String, LocationRecord> entry : locations.entrySet()) {

@@ -18,21 +18,25 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/weather")
+//warto zrobic interfejs WeatherApi ktory bedzie  mial informacje o endpointach i kody odpowiedzi jakie appka moze zwrocic a w Controllerze sama implementacja metod
 public class WeatherController {
 
     private WeatherService weatherService;
 
     @GetMapping("/best")
+    //dto jest uzywane dla poziomu serwisu a nie controllera
     public LocationRecord getBestLocation(@Valid @RequestBody DateDTO dto) throws IOException {
         return weatherService.getBestLocation(dto.getDate());
     }
 
     @PostMapping()
+    //dto jest uzywane dla poziomu serwisu a nie controllera
     public Location addNewLocation(@RequestBody UrlDTO locationUrl) throws IOException {
         return weatherService.addNewLocation(locationUrl.getUrl());
     }
 
     @GetMapping("/all")
+    //jedna z roznic @RestController a @Controller to wlasnie opakowanie w Response Entity i nie musimy pisac tego wprost w typie zwracanym metody
     public ResponseEntity<Collection<Location>> getAllLocations() {
         Collection<Location> all = weatherService.getAll();
         return ResponseEntity.ok()

@@ -12,6 +12,7 @@ public class DateRange {
         return givenDate.isBefore(LocalDate.now().plusDays(ALLOWED_RANGE));
     }
 
+    // nie zapominaj po sobie posprzatac jesli zmieniles koncepcje ;-)
     private DateRange() {
     }
 }
