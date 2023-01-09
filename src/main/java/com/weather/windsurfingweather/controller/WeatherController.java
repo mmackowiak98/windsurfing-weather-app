@@ -1,7 +1,7 @@
 package com.weather.windsurfingweather.controller;
 
 import com.weather.windsurfingweather.model.Location;
-import com.weather.windsurfingweather.model.dao.DateDAO;
+import com.weather.windsurfingweather.model.dto.DateDTO;
 import com.weather.windsurfingweather.model.dao.LocationDAO;
 import com.weather.windsurfingweather.model.dto.UrlDTO;
 import com.weather.windsurfingweather.service.WeatherService;
@@ -23,8 +23,8 @@ public class WeatherController {
     private WeatherService weatherService;
 
     @GetMapping("/best")
-    public LocationDAO getBestLocation(@Valid @RequestBody DateDAO dao) throws IOException {
-        return weatherService.getBestLocation(dao.getDate());
+    public LocationDAO getBestLocation(@Valid @RequestBody DateDTO dto) throws IOException {
+        return weatherService.getBestLocation(dto.getDate());
     }
 
     @PostMapping()
