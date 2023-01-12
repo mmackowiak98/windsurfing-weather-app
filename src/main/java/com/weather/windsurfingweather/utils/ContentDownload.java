@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 @Slf4j
+//ta klasa powinna byc w pakiecie client i nazwa powinna odpowiadac temu co robi czyli WeatherClient czy cos w tym stylu
 public class ContentDownload {
 
     public static JSONArray getDataFromUrl(String locationUrl) throws IOException {
