@@ -1,4 +1,4 @@
-package com.weather.windsurfingweather.model;
+package com.weather.windsurfingweather.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;

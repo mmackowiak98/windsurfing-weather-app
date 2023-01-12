@@ -1,8 +1,9 @@
-package com.weather.windsurfingweather.utils;
+package com.weather.windsurfingweather.client;
 
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,21 +11,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 @Slf4j
-//ta klasa powinna byc w pakiecie client i nazwa powinna odpowiadac temu co robi czyli WeatherClient czy cos w tym stylu
-public class ContentDownload {
+@Component
+public class WeatherClient {
 
-    public static JSONArray getDataFromUrl(String locationUrl) throws IOException {
+    public JSONArray getDataFromUrl(String locationUrl) throws IOException {
         JSONObject jsonFromUrl = getJSONFromUrl(locationUrl);
         return jsonFromUrl.getJSONArray("data");
     }
 
-    public static JSONObject getObjectFromUrl(String locationUrl) throws IOException {
+    public JSONObject getObjectFromUrl(String locationUrl) throws IOException {
         JSONObject jsonFromUrl = getJSONFromUrl(locationUrl);
         log.info("json object {}", jsonFromUrl);
         return jsonFromUrl;
     }
 
-    private static JSONObject getJSONFromUrl(String url) throws IOException {
+    public JSONObject getJSONFromUrl(String url) throws IOException {
 
         URL address = new URL(url);
         HttpURLConnection con = (HttpURLConnection) address.openConnection();
@@ -53,8 +54,5 @@ public class ContentDownload {
         log.info("json {}", json);
         return json;
 
-    }
-
-    private ContentDownload() {
     }
 }
